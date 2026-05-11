@@ -30,17 +30,19 @@ Luego de abrir el correo encuentras un mail de tu Líder Técnico con tu primera
 > 2. Agregar un **buscador por título** dentro del componente `MovieTable.jsx`.
 >    - Debe ser un `input` de texto que filtre el listado visible en tiempo real según lo que escribe el usuario.
 >    - El filtrado debe hacerse del lado del cliente (no hace falta llamar a la API de nuevo).
-> 3. Agregar funcionalidad de **favoritos**: permitir marcar/desmarcar películas favoritas.
->    - Para usar favoritos, el usuario debe haber iniciado sesión previamente en `/login`. Al hacerlo, la página de login guarda su email en `localStorage` bajo la clave `userEmail`.
->    - Al cargar el componente, leé `localStorage.getItem("userEmail")`. Si **no existe**, mostrar un aviso del estilo _"Iniciá sesión para guardar favoritos"_ en lugar del botón de favorito (podés usar un `useEffect` para leer el localStorage).
->    - Si **existe** el `userEmail`, mostrar un botón/ícono de favorito en cada fila de la tabla.
->    - Los ids de las películas favoritas se guardan en `localStorage` bajo la clave `favorites_${userEmail}` como un array JSON. Ejemplo: `favorites_juan@mail.com → ["id1","id2"]`. Esto permite que cada usuario tenga su propia lista.
+> 3. Agregar un **filtro por género** en el componente `MovieTable.jsx`.
+>    - El `<select>` con los géneros y el estado `selectedGenre` **ya están armados** en el componente.
+>    - Implementá la lógica de filtrado: usá `selectedGenre` para filtrar el array `filteredMovies`. Si `selectedGenre` está vacío (`""`), no filtrar.
+>    - Pista: cada película tiene un array `genres`. Podés usar `.includes(selectedGenre)` para verificar si el género está en el array.
 > 4. Implementar la **página de detalle** de cada película consumiendo `GET /api/movies/:id`.
 >    - Al hacer click en el título de una película, navegar a `/movies/[id]`.
 >    - Mostrar al menos: `title`, `plot`, `cast`, `year` y `genres`.
-> 5. Implementar el **paginado** en el componente **MovieList**.
->    - Usar los query params `page` y `limit` del endpoint `GET /api/movies`.
->    - Mostrar botones de "Anterior" y "Siguiente".
+>    - Mostrar el **poster** de la película usando el campo `poster` del objeto (es una URL de imagen). Usá una etiqueta `<img>` con `src={movie.poster}`. Si el campo no existe, no mostrar nada.
+> 5. Agregar **ordenamiento por año** en el componente `MovieTable.jsx`.
+>    - El botón "Año ↑ / ↓" y el estado `sortAsc` **ya están armados** en el componente.
+>    - Implementá la lógica de ordenamiento: usá `sortAsc` para ordenar el array `genreFilteredMovies` por `year`.
+>    - Si `sortAsc` es `true` → de menor a mayor; si es `false` → de mayor a menor.
+>    - Importante: no mutar el array original, usá `[...genreFilteredMovies].sort(...)`.
 
 > Desde ya muchas gracias por la colaboración! 😉 como te comente en la entrevista soy muy detallista en la prolijidad del codigo y la performance cada detalle cuenta, sin embargo si no estas seguro, es mejor que lo resuelvas como puedas y me dejes notas en el readme.md del repo, para que yo pueda probar.
 
@@ -57,7 +59,6 @@ Si ya terminaste, o son las 10:00, asegurate de seguir los siguientes pasos para
 
 ## Listado de rutas implementadas
 
-Completá la siguiente tabla indicando qué rutas/páginas implementaste:
 
 | Ruta | Descripción | Observaciones |
 |------|-------------|---------------|
