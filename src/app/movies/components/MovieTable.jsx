@@ -1,5 +1,6 @@
 "use client";
 
+import { Router } from "next/router";
 import { useState } from "react";
 
 export default function MovieTable({ movies }) {
@@ -9,12 +10,17 @@ export default function MovieTable({ movies }) {
 
   // TODO (ejercicio 2): reemplazar `movies` con el filtro por título usando `search`
   // Pista: .filter((m) => m.title?.toLowerCase().includes(search.toLowerCase()))
-  const filteredMovies = movies;
+  const filteredMovies = movies.filter((m) => {
+    return m.title?.toLowerCase().includes(search.toLowerCase());
+  });
 
   // TODO (ejercicio 3): reemplazar `filteredMovies` con el filtro por género usando `selectedGenre`
   // Si `selectedGenre` está vacío (""), no filtrar. Pista: cada película tiene un array `genres`,
   // podés usar .includes(selectedGenre) para verificar si el género está en el array.
-  const genreFilteredMovies = filteredMovies;
+  const genreFilteredMovies = filteredMovies.filter((m) => {
+    if (!selectedGenre) return true;
+    return m.genres?.includes(selectedGenre);
+  });
 
   // TODO (ejercicio 5): reemplazar `genreFilteredMovies` con el array ordenado por `year`
   // Si `sortAsc` es true → menor a mayor; si es false → mayor a menor.
@@ -61,7 +67,7 @@ export default function MovieTable({ movies }) {
           <thead className="bg-white/5 text-xs uppercase tracking-[0.4em] text-zinc-400">
             <tr>
               <th className="px-6 py-3">Título</th>
-              {/* TODO (ejercicio 1): agregar <th> para la columna Año */}
+              <th className="px-6 py-3">Año</th>
               <th className="px-6 py-3">Plot</th>
               <th className="px-6 py-3">Cast</th>
             </tr>
@@ -74,14 +80,15 @@ export default function MovieTable({ movies }) {
                     type="button"
                     className="block text-left text-inherit"
                     onClick={() => {
-                      console.log(`Seleccionada película: ${movie._id} - ${movie.title}`);
-                      // TODO (ejercicio 4): redirigir a /movies/${movie._id}
+                     // console.log(`Seleccionada película: ${movie._id} - ${movie.title}`);
+                      var id = movie._id;
+                      Router.push(`/movies/`+id);
                     }}
                   >
                     {movie.title}
                   </button>
                 </td>
-                {/* TODO (ejercicio 1): agregar <td> con movie.year ?? "-" */}
+                <td className="px-6 py-4 text-zinc-200">{movie.year || "-"}</td>
                 <td className="px-6 py-4 text-zinc-200">{movie.plot || "-"}</td>
                 <td className="px-6 py-4 text-zinc-200">
                   {movie.cast?.length ? movie.cast.join(", ") : "-"}
